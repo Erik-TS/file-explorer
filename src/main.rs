@@ -8,6 +8,15 @@ fn main() {
     let start_dir = Path::new("/");
 }
 
+fn create_new_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error> {
+    let new_folder_path_string = format!("{}/{}", folder_path.to_string_lossy(), folder_name);
+
+    match fs::create_dir(new_folder_path_string) {
+        Ok(_) => Ok(String::from("Folder created with success.")),
+        Err(err) => Err(err),
+    }
+}
+
 fn change_current_dir(dir: &Path) -> Result<String, Error> {
     match env::set_current_dir(dir) {
         Ok(_) => {
