@@ -8,6 +8,16 @@ fn main() {
     let start_dir = Path::new("/");
 }
 
+fn remove_file(path: &Path, file_name: &str) -> Result<String, Error>{
+    let full_path_string = format!("{}/{}", path.to_string_lossy(), file_name);
+    let removed_file_path = Path::new(full_path_string.as_str());
+
+    match fs::remove_file(removed_file_path){
+        Ok(_) => Ok(String::from("File removed with success.")),
+        Err(err) => Err(err)
+    }
+}
+
 fn create_new_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error> {
     let new_folder_path_string = format!("{}/{}", folder_path.to_string_lossy(), folder_name);
 
