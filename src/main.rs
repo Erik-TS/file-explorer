@@ -6,7 +6,7 @@ use std::ops::Add;
 use std::path::Path;
 
 fn main() {
-    let start_dir = Path::new("/");
+    let initial_path = Path::new("/");
 }
 
 fn create_file(path: &Path, file_name: &str) -> Result<String, Error> {
@@ -22,8 +22,7 @@ fn create_file(path: &Path, file_name: &str) -> Result<String, Error> {
 }
 
 fn remove_file(path: &Path, file_name: &str) -> Result<String, Error> {
-    let full_path_string = format!("{}/{}", path.to_string_lossy(), file_name);
-    let removed_file_path = Path::new(full_path_string.as_str());
+    let removed_file_path = path.join(Path::new(file_name));
 
     match fs::remove_file(removed_file_path) {
         Ok(_) => Ok(String::from("File removed with success.")),
@@ -32,9 +31,9 @@ fn remove_file(path: &Path, file_name: &str) -> Result<String, Error> {
 }
 
 fn create_new_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error> {
-    let new_folder_path_string = format!("{}/{}", folder_path.to_string_lossy(), folder_name);
+    let new_folder_path = folder_path.join(Path::new(folder_name));
 
-    match fs::create_dir(new_folder_path_string) {
+    match fs::create_dir(new_folder_path) {
         Ok(_) => Ok(String::from("Folder created with success.")),
         Err(err) => Err(err),
     }
