@@ -30,12 +30,21 @@ fn remove_file(path: &Path, file_name: &str) -> Result<String, Error> {
     }
 }
 
-fn create_new_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error> {
+fn create_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error> {
     let new_folder_path = folder_path.join(Path::new(folder_name));
 
     match fs::create_dir(new_folder_path) {
         Ok(_) => Ok(String::from("Folder created with success.")),
         Err(err) => Err(err),
+    }
+}
+
+fn remove_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error>{
+    let path = folder_path.join(Path::new(folder_name));
+
+    match fs::remove_dir(path){
+        Ok(_) => Ok(String::from("Folder removed with success.")),
+        Err(err) => Err(err)
     }
 }
 
