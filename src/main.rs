@@ -33,10 +33,13 @@ fn remove_file(path: &Path, file_name: &str) -> Result<String, Error> {
 fn create_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error> {
     let new_folder_path = folder_path.join(Path::new(folder_name));
 
-    match fs::create_dir(new_folder_path) {
-        Ok(_) => Ok(String::from("Folder created with success.")),
-        Err(err) => Err(err),
+    if !new_folder_path.exists() {
+        return match fs::create_dir(new_folder_path) {
+            Ok(_) => Ok(String::from("Folder created with success.")),
+            Err(err) => Err(err),
+        };
     }
+    Ok(String::from("Folder already exists."))
 }
 
 fn remove_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error> {
