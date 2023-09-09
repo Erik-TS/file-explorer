@@ -39,12 +39,27 @@ fn create_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error>
     }
 }
 
-fn remove_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error>{
+fn remove_folder(folder_path: &Path, folder_name: &str) -> Result<String, Error> {
     let path = folder_path.join(Path::new(folder_name));
 
-    match fs::remove_dir(path){
+    match fs::remove_dir(path) {
         Ok(_) => Ok(String::from("Folder removed with success.")),
-        Err(err) => Err(err)
+        Err(err) => Err(err),
+    }
+}
+
+fn rename(path: &Path, name: &str, new_name: &str) -> Result<String, Error> {
+    let mut i = 1;
+    let mut final_name = new_name.to_string();
+
+    while path.join(&final_name).exists() {
+        i += 1;
+        final_name = format!("{}({})", new_name, i);
+    }
+
+    match fs::rename(name, final_name) {
+        Ok(_) => Ok(String::from("File renamed with success.")),
+        Err(err) => Err(err),
     }
 }
 
